@@ -62,7 +62,8 @@ __global__ void sum(clock_t *d_clocks, int N)
     }
 
     s_clocks[threadIdx.x] = my_sum;
-    syncthreads();
+    //syncthreads();
+    __syncthreads();
 
     for (int i=16; i>0; i/=2)
     {
@@ -71,7 +72,8 @@ __global__ void sum(clock_t *d_clocks, int N)
             s_clocks[threadIdx.x] += s_clocks[threadIdx.x + i];
         }
 
-        syncthreads();
+        //syncthreads();
+	__syncthreads();
     }
 
     d_clocks[0] = s_clocks[0];
